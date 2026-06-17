@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Ulang SPMB – SMK Muhammadiyah Bojong</title>
+<style>
+  :root {
+    --green-dark: #1a5c2e;
+    --green-mid: #2d8a4e;
+    --green-light: #e8f5ec;
+    --red-muh: #cc2020;
+    --text-main: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --border: #d0d0c8;
+    --bg: #f7f6f2;
+    --white: #ffffff;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-main); min-height: 100vh; }
+
+  header {
+    background: var(--green-dark);
+    color: white;
+    padding: 0;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px 10px;
+  }
+  .logo-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green-dark);
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+  .header-text h1 { font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .header-text p { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+  .header-banner {
+    background: var(--red-muh);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 5px 12px;
+    font-weight: 600;
+  }
+
+  nav {
+    background: var(--green-mid);
+    display: flex;
+  }
+  nav a {
+    flex: 1; text-align: center;
+    color: white; text-decoration: none;
+    padding: 10px 8px;
+    font-size: 13px; font-weight: 600;
+    opacity: 0.75;
+    border-bottom: 3px solid transparent;
+    transition: opacity 0.2s;
+  }
+  nav a.active { opacity: 1; border-bottom-color: white; }
+
+  main { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  .section-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--green-light);
+  }
+
+  .form-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .form-group { margin-bottom: 14px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
+  label span.req { color: var(--red-muh); margin-left: 2px; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 14px;
+    color: var(--text-main);
+    background: var(--white);
+    transition: border-color 0.2s;
+    font-family: inherit;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--green-mid);
+    box-shadow: 0 0 0 3px rgba(45,138,78,0.12);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235a5a5a' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .auto-info {
+    background: var(--green-light);
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--green-dark);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .auto-info .label { font-weight: 600; margin-right: 4px; }
+  .auto-info .value { font-size: 15px; font-weight: 700; }
+
+  .btn-submit {
+    width: 100%;
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+  .btn-submit:active { transform: scale(0.98); background: #0f3d1e; }
+  .btn-submit:disabled { background: #888; cursor: not-allowed; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: #1a5c2e; color: white;
+    padding: 12px 24px; border-radius: 24px;
+    font-size: 14px; font-weight: 600;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    z-index: 999; white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.error { background: var(--red-muh); }
+
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle; margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .info-box {
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    border-radius: 7px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #5d4037;
+    margin-bottom: 14px;
+  }
+  .info-box strong { color: #bf360c; }
+
+  @media (max-width: 400px) {
+    .row-2 { grid-template-columns: 1fr; }
+    .header-text h1 { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="logo-circle">SMK</div>
+    <div class="header-text">
+      <h1>SMK Muhammadiyah Bojong</h1>
+      <p>Sistem Rekap Daftar Ulang SPMB 2025</p>
+    </div>
+  </div>
+  <div class="header-banner">✦ PENERIMAAN PESERTA DIDIK BARU ✦</div>
+</header>
+
+<nav>
+  <a href="index.html" class="active">📝 Input Data</a>
+  <a href="rekap.html">📊 Rekap & Pantauan</a>
+</nav>
+
+<main>
+  <div class="section-title">Form Daftar Ulang</div>
+
+  <div class="info-box">
+    <strong>Petunjuk:</strong> Isi semua kolom yang bertanda bintang (<span style="color:var(--red-muh)">*</span>). No. Pendaftaran dan Hari/Tanggal terisi otomatis. Klik <strong>Simpan</strong> untuk menyimpan data.
+  </div>
+
+  <div class="form-card">
+    <div class="auto-info">
+      <div><span class="label">Tanggal:</span> <span class="value" id="auto-tanggal">–</span></div>
+      <div style="margin-left:auto"><span class="label">No. Daftar:</span> <span class="value" id="auto-nodaftar">–</span></div>
+    </div>
+
+    <div class="form-group">
+      <label>Nama Lengkap <span class="req">*</span></label>
+      <input type="text" id="nama" placeholder="Nama siswa sesuai ijazah" autocapitalize="words" />
+    </div>
+
+    <div class="form-group">
+      <label>Jurusan <span class="req">*</span></label>
+      <select id="jurusan">
+        <option value="">— Pilih Jurusan —</option>
+        <option value="Teknik Sepeda Motor">Teknik Sepeda Motor (TSM)</option>
+        <option value="Broadcasting dan Perfilman">Broadcasting dan Perfilman (BDP)</option>
+      </select>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Asal Sekolah <span class="req">*</span></label>
+        <input type="text" id="asal_sekolah" placeholder="SMP/MTs asal" autocapitalize="words" />
+      </div>
+      <div class="form-group">
+        <label>No. Telepon <span class="req">*</span></label>
+        <input type="tel" id="telepon" placeholder="08xx-xxxx-xxxx" inputmode="numeric" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Alamat Lengkap <span class="req">*</span></label>
+      <textarea id="alamat" placeholder="Desa / Kelurahan, Kecamatan, Kabupaten"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Keterangan</label>
+      <input type="text" id="keterangan" placeholder="Misal: Hadir, Perwakilan ortu, dll (opsional)" />
+    </div>
+
+    <button class="btn-submit" id="btn-simpan" onclick="simpanData()">
+      💾 Simpan Data Daftar Ulang
+    </button>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/GANTI_DENGAN_WEB_APP_URL/exec";
+
+function formatTanggal() {
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const d = new Date();
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function updateAutofill() {
+  document.getElementById('auto-tanggal').textContent = formatTanggal();
+  const existing = JSON.parse(localStorage.getItem('spmb_count') || '{"date":"","count":0}');
+  const today = new Date().toLocaleDateString('id');
+  let count = (existing.date === today) ? existing.count : 0;
+  const next = count + 1;
+  const year = new Date().getFullYear().toString().slice(-2);
+  document.getElementById('auto-nodaftar').textContent = `SPMB-${year}-${pad(next)}`;
+}
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  setTimeout(() => t.className = 'toast', 3200);
+}
+
+async function simpanData() {
+  const nama = document.getElementById('nama').value.trim();
+  const jurusan = document.getElementById('jurusan').value;
+  const asal = document.getElementById('asal_sekolah').value.trim();
+  const telepon = document.getElementById('telepon').value.trim();
+  const alamat = document.getElementById('alamat').value.trim();
+  const ket = document.getElementById('keterangan').value.trim();
+
+  if (!nama || !jurusan || !asal || !telepon || !alamat) {
+    showToast('⚠️ Lengkapi semua kolom wajib!', 'error');
+    return;
+  }
+
+  const existing = JSON.parse(localStorage.getItem('spmb_count') || '{"date":"","count":0}');
+  const today = new Date().toLocaleDateString('id');
+  let count = (existing.date === today) ? existing.count : 0;
+  count++;
+  const year = new Date().getFullYear().toString().slice(-2);
+  const noReg = `SPMB-${year}-${pad(count)}`;
+
+  const data = {
+    hari_tgl: formatTanggal(),
+    no_pendaftaran: noReg,
+    nama,
+    jurusan,
+    asal_sekolah: asal,
+    alamat,
+    telepon,
+    keterangan: ket || '-'
+  };
+
+  const btn = document.getElementById('btn-simpan');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Menyimpan...';
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    localStorage.setItem('spmb_count', JSON.stringify({ date: today, count }));
+
+    document.getElementById('nama').value = '';
+    document.getElementById('jurusan').value = '';
+    document.getElementById('asal_sekolah').value = '';
+    document.getElementById('telepon').value = '';
+    document.getElementById('alamat').value = '';
+    document.getElementById('keterangan').value = '';
+
+    updateAutofill();
+    showToast(`✅ ${nama} berhasil disimpan! (${noReg})`);
+  } catch(e) {
+    showToast('❌ Gagal menyimpan. Cek koneksi internet.', 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '💾 Simpan Data Daftar Ulang';
+}
+
+updateAutofill();
+</script>
+</body>
+</html>
