@@ -154,6 +154,7 @@
     <div class="stat-card">
       <div class="num" id="total-count">–</div>
       <div class="lbl">Total Daftar</div>
+      <div id="total-breakdown" style="font-size:10px;color:var(--text-muted);margin-top:3px;"></div>
     </div>
     <div class="stat-card">
       <div class="num" id="hari-count">–</div>
@@ -227,8 +228,26 @@ async function loadData() {
   }
 }
 
+const TAMBAH_STORAGE_KEY = 'tambah_daftar_riwayat_v1';
+
+function getTambahanTotal() {
+  try {
+    const raw = localStorage.getItem(TAMBAH_STORAGE_KEY);
+    const riwayat = raw ? JSON.parse(raw) : [];
+    return riwayat.reduce((sum, r) => sum + (r.jumlah || 0), 0);
+  } catch(e) {
+    return 0;
+  }
+}
+
 function updateStats() {
-  document.getElementById('total-count').textContent = allData.length;
+  const tambahan = getTambahanTotal();
+  const totalCountEl = document.getElementById('total-count');
+  totalCountEl.textContent = allData.length + tambahan;
+  totalCountEl.title = tambahan > 0
+    ? `${allData.length} dari data tersimpan + ${tambahan} dari menu Tambah Daftar`
+    : '';
+  document.getElementById('total-breakdown').textContent = tambahan > 0 ? `(termasuk +${tambahan} manual)` : '';
   const todayDate = new Date().getDate();
   const hari = allData.filter(r => (r.hari_tgl||'').includes(todayDate)).length;
   document.getElementById('hari-count').textContent = hari;
