@@ -146,6 +146,7 @@
 <nav>
   <a href="index.html">📝 Input Data</a>
   <a href="rekap.html" class="active">📊 Rekap & Pantauan</a>
+  <a href="tambah.html">➕ Tambah Daftar</a>
 </nav>
 
 <main>
@@ -181,7 +182,7 @@
     </div>
 
     <div class="section-title">
-      <span>Data Pendaftar</span>
+      <span>Data Pendaftar Ulang</span>
       <span class="last-update" id="last-update"></span>
     </div>
 
@@ -258,7 +259,6 @@ function renderTable(data) {
       <td>${jurusanBadge(r.jurusan)}</td>
       <td>${r.asal_sekolah||'-'}</td>
       <td style="font-size:12px;color:var(--text-muted)">${r.alamat||'-'}</td>
-      <td>${r.telepon||'-'}</td>
       <td><span class="badge ${r.keterangan&&r.keterangan!=='-'?'':'badge-red'}">${r.keterangan||'-'}</span></td>
       <td style="font-size:11px;color:var(--text-muted);white-space:nowrap">${r.hari_tgl||'-'}</td>
     </tr>`).join('');
@@ -273,7 +273,6 @@ function renderTable(data) {
           <th>Jurusan</th>
           <th>Asal Sekolah</th>
           <th>Alamat</th>
-          <th>Telepon</th>
           <th>Keterangan</th>
           <th>Hari/Tgl</th>
         </tr></thead>
